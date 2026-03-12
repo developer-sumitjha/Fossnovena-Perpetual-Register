@@ -18,6 +18,9 @@ define( 'FNPR_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'FNPR_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 require_once FNPR_PLUGIN_PATH . 'includes/class-perpetual-register-activator.php';
+require_once FNPR_PLUGIN_PATH . 'includes/class-csv-importer.php';
+require_once FNPR_PLUGIN_PATH . 'admin/class-admin-page.php';
+require_once FNPR_PLUGIN_PATH . 'admin/class-admin-enqueue.php';
 
 
 class FNPR_Perpetual_Register {
@@ -31,6 +34,10 @@ class FNPR_Perpetual_Register {
     public function init_plugin() {
 
         FNPR_Register_Activator::activate();
+
+        new FNPR_Admin_Page();
+        new FNPR_Admin_Enqueue();
+        new FNPR_CSV_Importer();
 
     }
 

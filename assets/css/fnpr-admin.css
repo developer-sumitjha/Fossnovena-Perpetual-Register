@@ -1,0 +1,40 @@
+.wrap h1.fnpr-page-title{
+    font-size: 24px;
+    font-weight: 500;
+    color: #000;
+    margin-bottom: 0;
+}
+
+.wrap p.fnpr-page-description{
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+}
+
+.wrap .fnpr-upload-form{
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+    margin-top: 20px;
+}
+
+.wrap .fnpr-upload-form form{
+    display: flex;
+    gap: 10px;
+}
+
+.wrap .fnpr-upload-form form input[type="file"]{
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+}
+
+.wrap .fnpr-upload-form form input[type="submit"]{
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    width: 200px;
+    background-color: #e14426;
+    color: #fff;
+}
