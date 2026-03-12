@@ -66,6 +66,12 @@ class FNPR_Admin_Page {
             <div class="fnpr-upload-form">
                 <form method="post" enctype="multipart/form-data">
                     <input type="file" name="csv_file">
+
+                    <select name="import_type">
+                        <option value="append">Append New Data</option>
+                        <option value="replace">Replace Existing Data</option>
+                    </select>
+
                     <input type="submit" name="upload_csv" value="Upload">
                 </form>
             </div>

@@ -12,6 +12,9 @@ class FNPR_CSV_Importer {
 
         if(isset($_POST['upload_csv'])){
 
+            
+
+
             $file = $_FILES['csv_file']['tmp_name'];
 
             if(($handle = fopen($file, "r")) !== FALSE){
@@ -22,6 +25,12 @@ class FNPR_CSV_Importer {
 
                 $table = $wpdb->prefix . 'perpetual_register';
 
+                $import_type = $_POST["import_type"];
+
+                if($import_type == "replace"){
+                    $wpdb->query("TRUNCATE TABLE $table");
+                }
+
                 while(($data = fgetcsv($handle, 1000, ",")) !== FALSE){
 
                     // Skip empty rows
@@ -30,7 +39,7 @@ class FNPR_CSV_Importer {
                     }
 
                     $wpdb->insert($table, [
-                        'id' => sanitize_text_field($data[0]),
+                        'entry_id' => sanitize_text_field($data[0]),
                         'entry' => sanitize_text_field($data[1]),
                         'life_stats' => sanitize_text_field($data[2]),
                         'sort' => sanitize_text_field($data[3]),
@@ -44,6 +53,7 @@ class FNPR_CSV_Importer {
                 add_action('admin_notices', function() {
                     echo '<div class="notice notice-success"><p>CSV imported successfully.</p></div>';
                 });
+                
 
             }
 

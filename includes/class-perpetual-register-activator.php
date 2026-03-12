@@ -12,6 +12,7 @@ class FNPR_Register_Activator {
 
         $sql = "CREATE TABLE $table (
             id INT NOT NULL AUTO_INCREMENT,
+            entry_id VARCHAR(255) NOT NULL,
             entry VARCHAR(255) NOT NULL,
             life_stats VARCHAR(255) NOT NULL,
             sort VARCHAR(255) NOT NULL,
