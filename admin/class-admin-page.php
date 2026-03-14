@@ -49,12 +49,78 @@ class FNPR_Admin_Page {
 
         <div class="wrap">
             <h1 class="fnpr-page-title">Perpetual Register</h1>
+            <p class="fnpr-page-description">The perpetual register is a list of all the entries in the register.</p>
+
+            <div class="fnpr-table">
+                <table class="wp-list-table widefat fixed striped">
+                    <thead>
+                        <tr>
+                            <th>Entry ID</th>
+                            <th>Entry</th>
+                            <th>Life Stats</th>
+                            <th>Sort</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        global $wpdb;
+                        $table = $wpdb->prefix . 'perpetual_register';
+                        $entries = $wpdb->get_results("SELECT * FROM $table ORDER BY sort ASC");
+                        foreach($entries as $entry){
+                            echo '<tr data-id="' . $entry->id . '">';
+                            echo '<td>' . $entry->entry_id . '</td>';
+                            echo '<td>' . $entry->entry . '</td>';
+                            echo '<td>' . $entry->life_stats . '</td>';
+                            echo '<td>' . $entry->sort . '</td>';
+                            echo '<td><a href="#" class="fnpr-edit-entry">Edit</a> | <a href="#" class="fnpr-delete-entry">Delete</a></td>';
+                            echo '</tr>';
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="fnpr-modal">
+                <div class="fnpr-modal-content">
+                    <span class="notice hide"></span>
+                    <h2>Edit Entry</h2>
+                    <form method="post" class="fnpr-modal-form">
+                        <div class="input-field">
+                            <input type="hidden" name="id" id="fnpr-edit-entry-id" disabled>
+                        </div>
+                        <div class="input-field">
+                            <label for="fnpr-edit-entryid">Entry ID:</label>
+                            <input type="text" name="entry_id" id="fnpr-edit-entryid" placeholder="Entry ID">
+                        </div>
+                        <div class="input-field">
+                            <label for="fnpr-edit-entry-entry">Entry:</label>
+                            <input type="text" name="entry" id="fnpr-edit-entry-entry" placeholder="Entry">
+                        </div>
+                        <div class="input-field">
+                            <label for="fnpr-edit-entry-life-stats">Life Stats:</label>
+                            <input type="text" name="life_stats" id="fnpr-edit-entry-life-stats" placeholder="Life Stats">
+                        </div>
+                        <div class="input-field">
+                            <label for="fnpr-edit-entry-sort">Sort:</label>
+                            <input type="text" name="sort" id="fnpr-edit-entry-sort" placeholder="Sort">
+                        </div>
+                        <div class="modal-buttons">
+                            <input type="button" name="cancel_entry" value="Close" id="cancel-entry">
+                            <input type="button" name="save_entry" value="Save" id="save-entry">
+                        </div>
+                    </form>
+                </div>
+            </div>
 
 
         </div>
 
         <?php
     }
+
+    
+
 
     public function import_data_page_html() {
         ?>
