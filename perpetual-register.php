@@ -22,6 +22,8 @@ require_once FNPR_PLUGIN_PATH . 'includes/class-csv-importer.php';
 require_once FNPR_PLUGIN_PATH . 'includes/class-ajax-actions.php';
 require_once FNPR_PLUGIN_PATH . 'admin/class-admin-page.php';
 require_once FNPR_PLUGIN_PATH . 'admin/class-admin-enqueue.php';
+require_once FNPR_PLUGIN_PATH . 'public/class-fnpr-shortcode.php';
+require_once FNPR_PLUGIN_PATH . 'public/class-fnpr-enqueue.php';
 
 
 class FNPR_Perpetual_Register {
@@ -40,6 +42,9 @@ class FNPR_Perpetual_Register {
         new FNPR_Admin_Enqueue();
         new FNPR_CSV_Importer();
         new FNPR_Ajax_Actions();
+
+        new FNPR_Shortcode();
+        new FNPR_Public_Enqueue();
         
     }
 
