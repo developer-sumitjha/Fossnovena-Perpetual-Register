@@ -44,6 +44,9 @@ class FNPR_Shortcode {
                     </div>
                     <hr>
                     <div class="fnpr-list border">
+                    <div class="fnpr-results-count">
+                        <span id="results-count"><?php echo count($entries); ?></span> results found
+                    </div>
                     <ul>
 
                     <?php
@@ -97,6 +100,18 @@ class FNPR_Shortcode {
 
             const filters = document.querySelectorAll(".fnpr-alpha-filter li");
             const entries = document.querySelectorAll(".fnpr-list li");
+            const resultsCount = document.getElementById("results-count");
+
+            function updateResultsCount() {
+                let visibleCount = 0;
+                entries.forEach(entry => {
+                    if(entry.style.display !== "none") visibleCount++;
+                });
+                resultsCount.textContent = visibleCount;
+            }
+
+            // Initialize count on page load
+            updateResultsCount();
 
             filters.forEach(filter => {
 
@@ -124,6 +139,8 @@ class FNPR_Shortcode {
                         }
 
                     });
+
+                    updateResultsCount();
 
                 });
 
@@ -192,6 +209,12 @@ class FNPR_Shortcode {
             .fnpr-list ul li .entry-lifestats {
                 font-size: 16px;
             }
+            .fnpr-results-count {
+                font-size: 16px;
+                font-weight: 500;
+                color: #0b83c0;
+            }
+            
         </style>
         <?php
         

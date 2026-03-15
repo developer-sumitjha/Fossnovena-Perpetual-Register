@@ -6,8 +6,7 @@ class FNPR_Admin_Page {
 
         add_action('admin_menu', [$this, 'register_menu']);
         add_action('admin_menu', [$this, 'register_sub_menu']);
-        add_action('admin_menu', [$this, 'register_settings_menu']);
-
+        
     }
 
     public function register_menu() {
@@ -33,18 +32,28 @@ class FNPR_Admin_Page {
         );
     }
 
-    public function register_settings_menu() {
-        add_submenu_page(
-            'perpetual-register',
-            'Settings',
-            'Settings',
-            'manage_options',
-            'perpetual-register-settings',
-            [$this, 'settings_page_html']
-        );
-    }
+    
 
     public function admin_page_html() {
+        global $wpdb;
+        $table = $wpdb->prefix . 'perpetual_register';
+
+        $per_page = isset($_GET['perpage']) ? intval($_GET['perpage']) : 200;
+        $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
+        $offset = ($current_page - 1) * $per_page;
+
+       $total_entries = $wpdb->get_var("SELECT COUNT(*) FROM $table");
+
+        $entries = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT * FROM $table ORDER BY sort ASC LIMIT %d OFFSET %d",
+                $per_page,
+                $offset
+            )
+        );
+
+        
+        $total_pages = ceil($total_entries / $per_page);
         ?>
 
         <div class="wrap">
@@ -64,9 +73,7 @@ class FNPR_Admin_Page {
                     </thead>
                     <tbody>
                         <?php
-                        global $wpdb;
-                        $table = $wpdb->prefix . 'perpetual_register';
-                        $entries = $wpdb->get_results("SELECT * FROM $table ORDER BY sort ASC");
+                        // $entries = $wpdb->get_results("SELECT * FROM $table ORDER BY sort ASC");
                         foreach($entries as $entry){
                             echo '<tr data-id="' . $entry->id . '">';
                             echo '<td>' . $entry->entry_id . '</td>';
@@ -81,6 +88,42 @@ class FNPR_Admin_Page {
                 </table>
             </div>
 
+            <div class="tablenav">
+
+            <div class="perpage-select">
+            <form method="get">
+                <input type="hidden" name="page" value="<?php echo esc_attr($_GET['page']); ?>">
+                <select name="perpage" id="perpage-select" onchange="this.form.submit()">
+                    <?php
+                    $options = [20, 50, 100, 200, 500];
+                    foreach ($options as $option) {
+                        $selected = $per_page == $option ? 'selected' : '';
+                        echo "<option value='$option' $selected>$option</option>";
+                    }
+                    ?>
+                </select>
+            </form>
+            </div>
+
+            
+            <?php 
+            // Pagination
+            if ($total_entries > $per_page) {
+                $total_pages = ceil($total_entries / $per_page);
+
+                echo '<div class="tablenav-pages">';
+                echo paginate_links([
+                    'base'      => add_query_arg('paged', '%#%'),
+                    'format'    => '',
+                    'prev_text' => '&larr;',
+                    'next_text' => '&rarr;',
+                    'total'     => $total_pages,
+                    'current'   => $current_page,
+                    'mid_size'  => 2, // show 2 pages before/after current
+                ]);
+                echo '</div>';
+            } ?>
+            </div>
             <div class="fnpr-modal">
                 <div class="fnpr-modal-content">
                     <span class="notice hide"></span>
@@ -146,19 +189,5 @@ class FNPR_Admin_Page {
         <?php
     }
 
-    public function settings_page_html() {
-        ?>
-
-        <div class="wrap">
-            <h1 class="fnpr-page-title">Settings</h1>
-            <p class="fnpr-page-description">Configure the perpetual register settings.</p>
-
-            <div class="fnpr-settings-form">
-                
-            </div>
-        </div>
-
-        <?php
-    }
 
 }

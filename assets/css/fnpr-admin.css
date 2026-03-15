@@ -121,3 +121,34 @@
 .fnpr-modal-content .notice.hide {
     display: none;
 }
+
+.tablenav a.page-numbers
+ {
+    border: 1px solid #aaa;
+    padding: 4px 10px;
+    font-size: 14px;
+    text-decoration: none;
+    color: #000;
+}
+.tablenav span.page-numbers
+ {
+    border: 1px solid #2271b1;
+    background-color: #2271b1;
+    padding: 4px 10px;
+    font-size: 14px;
+    text-decoration: none;
+    color: #fff;
+}
+.tablenav .tablenav-pages {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.tablenav .perpage-select {
+    float: left;
+}
+.fnpr-results-count {
+    font-size: 16px;
+    font-weight: 500;
+    color: #777;
+}
