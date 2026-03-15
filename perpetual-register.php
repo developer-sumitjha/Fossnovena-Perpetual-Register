@@ -18,10 +18,12 @@ define( 'FNPR_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'FNPR_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 require_once FNPR_PLUGIN_PATH . 'includes/class-perpetual-register-activator.php';
+require_once FNPR_PLUGIN_PATH . 'includes/class-perpetual-register-deactivator.php';
 require_once FNPR_PLUGIN_PATH . 'includes/class-csv-importer.php';
 require_once FNPR_PLUGIN_PATH . 'includes/class-ajax-actions.php';
 require_once FNPR_PLUGIN_PATH . 'admin/class-admin-page.php';
 require_once FNPR_PLUGIN_PATH . 'admin/class-admin-enqueue.php';
+require_once FNPR_PLUGIN_PATH . 'admin/class-admin-settings.php';
 require_once FNPR_PLUGIN_PATH . 'public/class-fnpr-shortcode.php';
 require_once FNPR_PLUGIN_PATH . 'public/class-fnpr-enqueue.php';
 
@@ -41,6 +43,7 @@ class FNPR_Perpetual_Register {
         new FNPR_Admin_Page();
         new FNPR_Admin_Enqueue();
         new FNPR_CSV_Importer();
+        new FNPR_Admin_Settings();
         new FNPR_Ajax_Actions();
 
         new FNPR_Shortcode();
@@ -51,3 +54,4 @@ class FNPR_Perpetual_Register {
 }
 
 new FNPR_Perpetual_Register();
+register_deactivation_hook(__FILE__, array('FNPR_Register_Deactivator', 'deactivate'));

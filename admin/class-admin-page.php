@@ -30,6 +30,14 @@ class FNPR_Admin_Page {
             'perpetual-register-import-data',
             [$this, 'import_data_page_html']
         );
+        add_submenu_page(
+            'perpetual-register',
+            'Settings',
+            'Settings',
+            'manage_options',
+            'perpetual-register-settings',
+            [$this, 'settings_page_html']
+        );
     }
 
     
@@ -74,16 +82,26 @@ class FNPR_Admin_Page {
                     <tbody>
                         <?php
                         // $entries = $wpdb->get_results("SELECT * FROM $table ORDER BY sort ASC");
-                        foreach($entries as $entry){
-                            echo '<tr data-id="' . $entry->id . '">';
-                            echo '<td>' . $entry->entry_id . '</td>';
-                            echo '<td>' . $entry->entry . '</td>';
-                            echo '<td>' . $entry->life_stats . '</td>';
-                            echo '<td>' . $entry->sort . '</td>';
-                            echo '<td><a href="#" class="fnpr-edit-entry">Edit</a> | <a href="#" class="fnpr-delete-entry">Delete</a></td>';
+
+                        if(!empty($entries)){
+                        
+                            foreach($entries as $entry){
+                                echo '<tr data-id="' . $entry->id . '">';
+                                echo '<td>' . $entry->entry_id . '</td>';
+                                echo '<td>' . $entry->entry . '</td>';
+                                echo '<td>' . $entry->life_stats . '</td>';
+                                echo '<td>' . $entry->sort . '</td>';
+                                echo '<td><a href="#" class="fnpr-edit-entry">Edit</a> | <a href="#" class="fnpr-delete-entry">Delete</a></td>';
+                                echo '</tr>';
+                            }
+
+                        } else {
+                            echo '<tr>';
+                            echo '<td colspan="5" style="text-align:center;">No result found</td>';
                             echo '</tr>';
                         }
                         ?>
+                        
                     </tbody>
                 </table>
             </div>
@@ -186,6 +204,40 @@ class FNPR_Admin_Page {
             </div>
         </div>
 
+        <?php
+    }
+
+    public function settings_page_html(){
+        ?>
+        <div class="wrap">
+            <h1 class="fnpr-page-title">Settings</h1>
+            <p class="fnpr-page-description"></p>
+
+            <form method="post" action="options.php" class="fnpr-settings">
+
+                <?php settings_fields('fnpr_settings_group'); ?>
+
+                <table class="form-table">
+                    <tr>
+                        <th scope="row">Database Settings</th>
+                        <td>
+                            <label>
+                                <input 
+                                    type="checkbox" 
+                                    name="fnpr_reset_database" 
+                                    value="1"
+                                    <?php checked( get_option('fnpr_reset_database'), 1 ); ?>
+                                />
+                                Reset Database on Plugin Deactivation
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+
+                <?php submit_button(); ?>
+
+            </form>
+        </div>
         <?php
     }
 

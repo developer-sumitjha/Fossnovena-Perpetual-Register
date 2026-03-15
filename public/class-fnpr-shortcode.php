@@ -44,9 +44,15 @@ class FNPR_Shortcode {
                     </div>
                     <hr>
                     <div class="fnpr-list border">
+                    <?php
+                    if(!empty($entries)){
+                    ?>
                     <div class="fnpr-results-count">
                         <span id="results-count"><?php echo count($entries); ?></span> results found
                     </div>
+                    <?php
+                    }
+                    ?>
                     <ul>
 
                     <?php
